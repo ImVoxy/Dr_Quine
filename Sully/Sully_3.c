@@ -1,4 +1,4 @@
-int z = 5;
+int z = 3;
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
