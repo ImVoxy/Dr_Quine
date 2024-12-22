@@ -1,46 +1,8 @@
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
 #include <stdio.h>
-
-void printer();
-#define FT int main(){printer();return(0);}
-
-
-void printer()
-{
-        FILE *rfptr;
-        int wf;
-        int cont;
-        char toprint;
-
-        rfptr = NULL;
-        wf = 0;
-        cont = 0;
-        toprint = 0;
-        if ((rfptr = fopen("Grace.c", "r")) == NULL)
-        {
-                write (1, "Error while opening file\n", 25);
-                return ;
-        }
-        if ((wf = open("./Grace_kid.c", O_CREAT | O_APPEND | O_RDWR, 0666)) == -1)
-        {
-                write (1, "Error while opening file\n", 25);
-                return ;
-        }
-        while (1)
-        {
-                cont = fgetc(rfptr);
-                if (cont == EOF)
-                {
-                        fclose(rfptr);
-			close(wf);
-                        break;
-                }
-                toprint = cont;
-                write(wf, &toprint, 1);
-        }
-}
+#include <fcntl.h>
+#define FILENAME "Grace_kid.c"
+#define SRC "#include <stdio.h>%1$c#include <fcntl.h>%1$c#define FILENAME %4$cGrace_kid.c%4$c%1$c#define SRC %4$c%3$s%4$c%1$c#define FT int main(){FILE *wf = NULL; if ((wf = fopen(FILENAME, %4$cw%4$c)) == NULL) return 0; fprintf(wf, SRC, 10, 9, SRC, 34); return(0);}%1$c%1$cFT%1$c%1$c/*%1$c%2$cThe comment%1$c*/"
+#define FT int main(){FILE *wf = NULL; if ((wf = fopen(FILENAME, "w")) == NULL) return 0; fprintf(wf, SRC, 10, 9, SRC, 34); return(0);}
 
 FT
 
